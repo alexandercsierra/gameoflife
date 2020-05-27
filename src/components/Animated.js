@@ -1,8 +1,13 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {useAnimation} from '../hooks/useAnimation'
 
 const Animated = () => {
 
+
+    const [colors, setColors] = useState({
+        main: "blue",
+        alt: "green"
+    })
     useEffect(()=>{
         if (canvasRef){
             const canvas = document.getElementById('my-canvas')
@@ -19,9 +24,10 @@ const Animated = () => {
                 // ctx.fillS tyle = "#FF0000";
                 // ctx.fillRect(0, 0, canvas.width/25, canvas.width/25);
                 let color = "000"
+                
                 for (let i=0; i<500; i+=25){
                     for (let j=0; j<500; j+=25){
-                        masterArr[i/25][j/25] == 1 ? color = "#FF0000" : color = "#000"
+                        masterArr[i/25][j/25] == 1 ? color = colors.main : color = colors.alt
                         ctx.fillStyle = color
                         ctx.fillRect(j, i, canvas.width/25, canvas.width/25);
                         
@@ -32,9 +38,23 @@ const Animated = () => {
             
             
         }
-    },[])
+    },[colors])
     
-
+    const changeColors = (colors) => {
+        if (colors.main == 'blue'){
+            setColors({
+                main: 'yellow',
+                alt: 'black'
+            })
+        }
+        else{
+            setColors({
+                main: 'blue',
+                alt: 'green'
+            })
+        }
+        console.log('color', colors.main)
+    }
     const canvasRef = useRef(null);
     
     const doAnimation = (elapsedTime) => {
@@ -47,9 +67,10 @@ const Animated = () => {
     
 
     return(
-        <div>
+        <div style={{display:'flex', flexDirection:'column', justifyContent: 'center', alignItems:'center'}}>
             <h3>Testing Animations</h3>
-            <canvas id='my-canvas' ref={canvasRef} width={500} height={500} style={{background: 'white', border: '1px solid red'}}/>
+            <canvas id='my-canvas' ref={canvasRef} width={500} height={500} style={{background: '#4f4f4f', margin: '4%'}}/>
+            <button style={{background: 'white', color: '#1C1C1C', border: 'none', borderRadius: '5px', fontSize: '1.2rem'}} onClick={()=>changeColors(colors)}>Change</button>
         </div>
 
     )
