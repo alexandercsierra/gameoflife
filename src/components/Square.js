@@ -7,15 +7,50 @@ export class Square {
         this.deadColor = deadColor
         this.x = j
         this.y = i
+        this.topi = i-1
+        this.topj = j
+
+        this.btmi = i + 1
+        this.btmj = j
+
+        this.lefti = i
+        this.leftj = j-1
+
+        this.righti = i
+        this.rightj = j+1
+
+        this.topLefti= i-1
+        this.topLeftj= j-1
+
+        this.topRighti= i-1
+        this.topRightj= j+1
+
+        this.btmLefti= i+1
+        this.btmLeftj= j-1
+
+        this.btmRighti= i+1
+        this.btmRightj= j+1
+
     }
 
+    /*
+    directly above = [i-1][j]
+    directly below = [i+1][j]
+    
+    directly left =  [i][j-1]
+    directly right = [i][j+1]
+    
+    top left =       [i-1][j-1]
+    top right =      [i-1][j+1]
+    
+    bottom left =    [i+1][j-1]
+    bottom right =   [i+1][j+1]
+    
+    */
     findColor = () => {
-        console.log('in findColor', this.aliveColor)
         if (this.status == 1){
-            console.log('in the if', this.aliveColor)
             return this.aliveColor
         } else{
-            console.log('in the else', this.deadColor)
             return this.deadColor
         }
     }
@@ -29,18 +64,3 @@ export class Square {
     }
 }
 
-
-/*
-directly above = [i-1][j]
-directly below = [i+1][j]
-
-directly left =  [i][j-1]
-directly right = [i][j+1]
-
-top left =       [i-1][j-1]
-top right =      [i-1][j+1]
-
-bottom left =    [i+1][j-1]
-bottom right =   [i+1][j+1]
-
-*/
