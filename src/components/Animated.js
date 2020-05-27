@@ -10,58 +10,31 @@ const Animated = () => {
             const ctx = canvas.getContext('2d');
             const imageData = ctx.getImageData(0,0,canvas.width, canvas.height)
             console.log('width', canvas.width)
+            //2D array with 25 rows and 25 columns
+            let masterArr = Array(25).fill(null).map(i=>Array(25).fill(null).map(i=>Math.floor(Math.random()*2)))
+            console.log(masterArr)
+            
             if(imageData){
-                makeVerticalLines(imageData, ctx)
-                makeHorizontalLines(imageData, ctx)
-                makeBlackSquare(imageData, ctx)
+                ctx.putImageData(imageData, 0, 0);
+                // ctx.fillS tyle = "#FF0000";
+                // ctx.fillRect(0, 0, canvas.width/25, canvas.width/25);
+                let color = "000"
+                for (let i=0; i<500; i+=25){
+                    for (let j=0; j<500; j+=25){
+                        masterArr[i/25][j/25] == 1 ? color = "#FF0000" : color = "#000"
+                        ctx.fillStyle = color
+                        ctx.fillRect(j, i, canvas.width/25, canvas.width/25);
+                        
+                    }
+
+                }
             }
             
             
         }
     },[])
     
-    const makeVerticalLines = (imageData, context) => {
-            let data = imageData.data
-            console.log('data', data)
-            let numPixels = data.length/4
-            for (let i=0; i< numPixels; i +=25){
-                data[i*4 + 3] = 255;
-            }
-            
-        context.putImageData(imageData, 0, 0);
 
-    }
-
-    const makeHorizontalLines = (imageData, context) => {
-            let data = imageData.data
-            console.log('data', data)
-            let numPixels = data.length/500
-            for (let i = 10000; i< 500000; i+=10000){
-
-                for (let j=i; j< i+500; j++ ){
-                    data[j*4+3] = 255;
-                }
-            }
-            
-        context.putImageData(imageData, 0, 0);
-
-    }
-
-    const makeBlackSquare = (imageData, context) => {
-        // let data = imageData.data
-        // let numPixels = data.length/40000
-        // for (let i=0; i< numPixels; i++){
-        //     data[i*4+3] = 255;
-
-        // }
-
-        context.beginPath();
-        context.arc(50, 50, 50, 0, 2 * Math.PI);
-        context.fill();
-
-        context.putImageData(imageData, 0, 0);
-    }
-    
     const canvasRef = useRef(null);
     
     const doAnimation = (elapsedTime) => {
