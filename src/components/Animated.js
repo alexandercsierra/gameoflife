@@ -17,9 +17,11 @@ const Animated = () => {
             const imageData = ctx.getImageData(0,0,canvas.width, canvas.height)
             console.log('width', canvas.width)
             //2D array with 25 rows and 25 columns
-            let masterArr = Array(25).fill(null).map(i=>Array(25).fill(null).map(i=>{
-                let square = new Square
+            let masterArr = Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{
+                console.log(colors.alt)
+                let square = new Square(0, colors.main, colors.alt, i, j)
                 square.status = Math.floor(Math.random()*2)
+                square.findColor()
                 return square
             }))
             console.log(masterArr)
@@ -34,6 +36,8 @@ const Animated = () => {
                     for (let j=0; j<500; j+=25){
                         masterArr[i/25][j/25].status == 1 ? color = colors.main : color = colors.alt
                         ctx.fillStyle = color
+
+                        
                         ctx.fillRect(j, i, canvas.width/25, canvas.width/25);
                         
                     }
@@ -41,7 +45,7 @@ const Animated = () => {
                 }
             }
             
-            
+            console.log(masterArr)
         }
     },[colors])
     
