@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react'
 import {useAnimation} from '../hooks/useAnimation'
+import {Square} from './Square'
 
 const Animated = () => {
 
@@ -16,7 +17,11 @@ const Animated = () => {
             const imageData = ctx.getImageData(0,0,canvas.width, canvas.height)
             console.log('width', canvas.width)
             //2D array with 25 rows and 25 columns
-            let masterArr = Array(25).fill(null).map(i=>Array(25).fill(null).map(i=>Math.floor(Math.random()*2)))
+            let masterArr = Array(25).fill(null).map(i=>Array(25).fill(null).map(i=>{
+                let square = new Square
+                square.status = Math.floor(Math.random()*2)
+                return square
+            }))
             console.log(masterArr)
             
             if(imageData){
@@ -27,7 +32,7 @@ const Animated = () => {
                 
                 for (let i=0; i<500; i+=25){
                     for (let j=0; j<500; j+=25){
-                        masterArr[i/25][j/25] == 1 ? color = colors.main : color = colors.alt
+                        masterArr[i/25][j/25].status == 1 ? color = colors.main : color = colors.alt
                         ctx.fillStyle = color
                         ctx.fillRect(j, i, canvas.width/25, canvas.width/25);
                         
