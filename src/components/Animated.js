@@ -5,8 +5,8 @@ const Animated = () => {
 
 
     const [colors, setColors] = useState({
-        main: "blue",
-        alt: "green"
+        main: "black",
+        alt: "white"
     })
     useEffect(()=>{
         if (canvasRef){
@@ -41,16 +41,16 @@ const Animated = () => {
     },[colors])
     
     const changeColors = (colors) => {
-        if (colors.main == 'blue'){
+        if (colors.main == 'black'){
             setColors({
-                main: 'yellow',
-                alt: 'black'
+                main: 'blue',
+                alt: 'green'
             })
         }
         else{
             setColors({
-                main: 'blue',
-                alt: 'green'
+                main: 'black',
+                alt: 'white'
             })
         }
         console.log('color', colors.main)
