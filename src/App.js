@@ -136,7 +136,7 @@ function App() {
         <h1>Conway's Game of Life</h1>
         <h2>{`Generations: ${generations}`}</h2>
         <h2>{`Speed: ${speedText}`}</h2>
-        <div style={{width: divWidth, height: '65vh', maxWidth: '100%'}}>
+        <div style={{width: divWidth+5, height: divWidth+5, maxWidth: '100%', marginBottom: '4%'}}>
           <Square numRows={numRows} numCols={numCols} grid={grid} updateGrid={updateGrid} divWidth={divWidth} divHeight={divWidth}/>
         </div>
         <Buttons started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>

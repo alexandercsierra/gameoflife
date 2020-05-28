@@ -58,6 +58,8 @@ const BtnContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    background: grey;
+    border-radius: 5px;
 `;
 
 const Button = styled.button`
