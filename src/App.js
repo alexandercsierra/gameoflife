@@ -34,7 +34,8 @@ function App() {
   startedRef.current = started
 
   const startGame = useCallback(() => {
-    if (!started){
+    console.log('started from game', started)
+    if (!startedRef.current){
       console.log('stopped')
       return
     }
