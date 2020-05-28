@@ -6,15 +6,16 @@ import Box from './Box'
 const Animated = () => {
 
     const [masterArr, setMasterArr] = useState([])
-    const [next, setNext] = useState(masterArr)
+    const [next, setNext] = useState([])
 
     useEffect(()=>{
             setMasterArr(Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{return 0})))
 
+            setNext(Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{return 0})))
+
     },[])
     
 
-    // const canvasRef = useRef(null);
     
     const doAnimation = (elapsedTime) => {
         
@@ -48,9 +49,10 @@ const Animated = () => {
         bottom right =   [i+1][j+1]
 
         */
+       let arr = []
         for(let i=0; i<masterArr.length; i++){
             for(let j=0; j<masterArr[i].length; j++){
-
+                let count = 0
 
                 let topi = i-1
                 let topj = j
@@ -58,49 +60,55 @@ const Animated = () => {
                 let btmi = i+1
                 let btmj = j
 
-                // let lefti = i
-                // let leftj = j-1
-
-                // let righti = i
-                // let rightj = j+1
-
-                // let topLefti = i-1
-                // let topLeftj = j-1
-
-                // let topRighti = i-1
-                // let topRightj = j+1
-
-                // let btmLefti = i+1
-                // let btmLeftij = j-1
-
-                // let btmRighti = i+1
-                // let btmRightj = j+1
-
-                let count = 0
-                if(masterArr[topi]){
-                    if (masterArr[topi][topj] === 1){
-                        count++
+                if(masterArr[i][j] == 1){
+                    if(masterArr[topi]){
+                        if (masterArr[topi][topj] == 1){
+                            console.log('found a top', topi, topj)
+                            count++
+                        }
+    
                     }
 
+                    if(masterArr[btmi]){
+                        if(masterArr[btmi][btmj] == 1){
+                            console.log('found a bottom', btmi, btmj)
+                            count++
+                        }
+    
+                    }
+                    console.log('count', count)
                 }
-                if(masterArr[btmi]){
-                    if(masterArr[btmi][btmj] === 1){
-                        count++
-                    }
+                // if(count > 0 && masterArr[i][j] == 1){
+                //     console.log('in the if')
+                //     arr = JSON.parse(JSON.stringify(masterArr))
+                //     arr[i][j] = 1
+                    
+                //     if(arr){
+                //         setMasterArr(arr)
+                //         console.log(arr)
+
+                //     }
+                // } else 
+                if (count == 0 && masterArr[i][j] == 1){
+                    console.log('in the if', 'i', i, 'j', j)
+                    arr = JSON.parse(JSON.stringify(masterArr))
+                    console.log('masterArr pos', masterArr[i][j])
+                    arr[i][j] = 0
+                    console.log('arr pos', arr[i][j])
+                    setMasterArr(arr)
+                    console.log('arr in the if', arr)
 
                 }
                 
-                if(count < 2){
-                    let arr = masterArr
-                    arr[i][j] = 0
-                    setNext(arr)
-
-                }
+                
 
             }
-        }//end outer loop
-
             
+        }//end outer loop
+        // console.log('next', next)
+        // setMasterArr(arr)
+        console.log('masterArr outside the loops', masterArr)
+
     }
 
     const toggleStatus = (i, j) => {
