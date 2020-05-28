@@ -20,13 +20,15 @@ const operations = [
 
 function App() {
 
-  const [grid, setGrid] = useState(()=>{
+  const emptyGrid = ()=>{
     const rows = [];
     for (let i=0; i<numRows; i++){
       rows.push(Array.from(Array(numCols), ()=> 0))
     }
     return rows
-  })
+}
+
+  const [grid, setGrid] = useState(()=>emptyGrid())
 
   const [started, setStarted] = useState(false);
 
@@ -49,7 +51,7 @@ function App() {
 
             operations.forEach(([x,y])=>{
               const newI = i + x;
-              const newJ = j + x;
+              const newJ = j + y;
 
               //checking boundaries
               if (newI >= 0 && newI < numRows && newJ >=0 && newJ < numCols){
@@ -74,7 +76,9 @@ function App() {
 
   },[])
 
-
+  const clearGrid = () => {
+    setGrid(()=>emptyGrid())
+  }
 
   const updateGrid = (i, j) => {
     const newGrid = produce(grid, gridCopy => {
@@ -95,6 +99,11 @@ function App() {
           startGame();
         } 
       }}>{started ? 'Stop' : 'Start'}</button>
+      <button onClick={()=>{
+        setStarted(false)
+        clearGrid()
+
+      }}>Clear</button>
       <div className="App" style={{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}>
         {grid.map((rows, i)=>rows.map((col, j) => <div key={`${i}_${j}`} style={{width: '20px', height: '20px', border: '1px solid black', background: grid[i][j] ? 'black' : 'white'}} onClick={()=>updateGrid(i,j)}></div>))}
       </div>
