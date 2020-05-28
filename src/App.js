@@ -86,11 +86,13 @@ function App() {
   }
 
   const updateGrid = (i, j) => {
-    const newGrid = produce(grid, gridCopy => {
-      gridCopy[i][j] = gridCopy[i][j] ? 0 : 1
-    })
-
-    setGrid(newGrid)
+    if(!started){
+      const newGrid = produce(grid, gridCopy => {
+        gridCopy[i][j] = gridCopy[i][j] ? 0 : 1
+      })
+  
+      setGrid(newGrid)
+    }
   }
 
   const randomize = () => {
