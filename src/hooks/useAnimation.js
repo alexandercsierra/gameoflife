@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // custom hook for using animation frame
 export const useAnimation = ( timestamp, doAnimationCallBack ) => {
@@ -9,9 +9,9 @@ export const useAnimation = ( timestamp, doAnimationCallBack ) => {
   const [ started, setStarted ] = useState( false );
   
   useEffect( () => {
-    
+    console.log('in the useffect', continueAnimation)
     // only start the animation frame if we haven't in the past
-    if( !started ){
+    if( !started && continueAnimation ){
       setStarted( true );
       requestAnimationFrame( onFrame );
     }
@@ -22,23 +22,31 @@ export const useAnimation = ( timestamp, doAnimationCallBack ) => {
     
     // if we want to do more ask for the next frame
     if( continueAnimation ){
-      requestAnimationFrame( onFrame );
+      setTimeout(()=>{requestAnimationFrame( onFrame )},1000)
+      // requestAnimationFrame( onFrame );
     }
     const elapsed = prevTimeStamp - timestamp;
     setTimeStamp( timestamp );
     console.log( `Current time: ${ timestamp } ms, frame time: ${ elapsed } ms` );
     
     //call callback and pass it the elapsed time
-    doAnimationCallBack( elapsed );
     
+    doAnimationCallBack( elapsed )
+
   };
   
   // this will stop the hook from calling the next animation frame
   const cancelAnimation = () => {
       console.log(continueAnimation);
     setContinueAnimation( false );
+    // setStarted(true)
   };
+
+  const startAnimation = () => {
+    setContinueAnimation(true)
+    // setStarted(false)
+  }
   
-  return [ cancelAnimation ];
+  return [ cancelAnimation, startAnimation ];
   
 };

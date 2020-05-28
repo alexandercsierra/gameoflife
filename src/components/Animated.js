@@ -1,81 +1,105 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useAnimation} from '../hooks/useAnimation'
-import {Square} from './Square'
+// import {Square} from './Square'
 import Box from './Box'
 
 const Animated = () => {
 
-
-    const [colors, setColors] = useState({
-        main: "black",
-        alt: "white"
-    })
-
     const [masterArr, setMasterArr] = useState([])
+    const [next, setNext] = useState(masterArr)
 
     useEffect(()=>{
-        // if (canvasRef){
-            const canvas = document.getElementById('my-canvas')
-            console.log('canvas', canvasRef)
-            // const ctx = canvas.getContext('2d');
-            // const imageData = ctx.getImageData(0,0,canvas.width, canvas.height)
-            // console.log('width', canvas.width)
-            //2D array with 25 rows and 25 columns
-            // masterArr = Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{
-            //     console.log(colors.alt)
-            //     // let square = new Square(0, colors.main, colors.alt, i, j)
-            //     let status = Math.floor(Math.random()*2)
-            //     let square = <Box i={i} j={j} status={status}/>
-            //     return square
-            // }))
-            setMasterArr(Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{return Math.floor(Math.random()*2)})))
-
             setMasterArr(Array(25).fill(null).map((sq, i)=>Array(25).fill(null).map((sq, j)=>{return 0})))
-            // console.log(masterArr)
-            
-            // if(imageData){
-                // ctx.putImageData(imageData, 0, 0);
-                // ctx.fillS tyle = "#FF0000";
-                // ctx.fillRect(0, 0, canvas.width/25, canvas.width/25);
-                let color = "000"
-                
-                // for (let i=0; i<500; i+=25){
-                //     for (let j=0; j<500; j+=25){
-                //         masterArr[i/25][j/25].status == 1 ? color = colors.main : color = colors.alt
-                //         ctx.fillStyle = color
 
-                        
-                //         ctx.fillRect(j, i, canvas.width/25, canvas.width/25);
-                        
-                //     }
-
-                // }
-            // }
-            
-            // console.log(masterArr)
-        // }
-    },[colors])
+    },[])
     
-    const changeColors = (colors) => {
-        if (colors.main == 'black'){
-            setColors({
-                main: 'blue',
-                alt: 'green'
-            })
-        }
-        else{
-            setColors({
-                main: 'black',
-                alt: 'white'
-            })
-        }
-        console.log('color', colors.main)
-    }
-    const canvasRef = useRef(null);
+
+    // const canvasRef = useRef(null);
     
     const doAnimation = (elapsedTime) => {
-            console.log('elapsed time:', elapsedTime);
-            console.log('current ref', canvasRef.current);
+        
+        // console.log('elapsed time:', elapsedTime);
+        /*
+        directly above = [i-1][j]
+        directly below = [i+1][j]
+
+        directly left =  [i][j-1]
+        directly right = [i][j+1]
+
+        top left =       [i-1][j-1]
+        top right =      [i-1][j+1]
+
+        bottom left =    [i+1][j-1]
+        bottom right =   [i+1][j+1]
+
+        */
+
+                /*
+        directly above = [i-1][j]
+        directly below = [i+1][j]
+
+        directly left =  [i][j-1]
+        directly right = [i][j+1]
+
+        top left =       [i-1][j-1]
+        top right =      [i-1][j+1]
+
+        bottom left =    [i+1][j-1]
+        bottom right =   [i+1][j+1]
+
+        */
+        for(let i=0; i<masterArr.length; i++){
+            for(let j=0; j<masterArr[i].length; j++){
+
+
+                let topi = i-1
+                let topj = j
+
+                let btmi = i+1
+                let btmj = j
+
+                // let lefti = i
+                // let leftj = j-1
+
+                // let righti = i
+                // let rightj = j+1
+
+                // let topLefti = i-1
+                // let topLeftj = j-1
+
+                // let topRighti = i-1
+                // let topRightj = j+1
+
+                // let btmLefti = i+1
+                // let btmLeftij = j-1
+
+                // let btmRighti = i+1
+                // let btmRightj = j+1
+
+                let count = 0
+                if(masterArr[topi]){
+                    if (masterArr[topi][topj] === 1){
+                        count++
+                    }
+
+                }
+                if(masterArr[btmi]){
+                    if(masterArr[btmi][btmj] === 1){
+                        count++
+                    }
+
+                }
+                
+                if(count < 2){
+                    let arr = masterArr
+                    arr[i][j] = 0
+                    setNext(arr)
+
+                }
+
+            }
+        }//end outer loop
+
             
     }
 
@@ -86,29 +110,26 @@ const Animated = () => {
         setMasterArr(copy)
     }
     
-    const [cancelAnimation] = useAnimation(Date.now(), doAnimation);
+    const [cancelAnimation, startAnimation] = useAnimation(Date.now(), doAnimation);
     
 
     return(
         <div style={{display:'flex', flexDirection:'column', justifyContent: 'center', alignItems:'center'}}>
             <h3>Testing Animations</h3>
-            {/* <canvas id='my-canvas' ref={canvasRef} width={500} height={500} style={{background: '#4f4f4f', margin: '4%'}}/> */}
             <div style={{margin: '2px'}}>
                 {masterArr && masterArr.map((row, i)=>{
                     return (
-                        <div style={{display: 'flex', border: '1px solid red', margin: '2px'}}>
+                        <div style={{display: 'flex', margin: '2px'}}>
                             {row.map((col, j)=>{
                             
-                                return <Box key={`${i}_${j}`} status={masterArr[i][j]} i={i} j={j} onClick={()=>console.log('clicked')}/>
+                                return <Box key={`${i}_${j}`} toggleStatus={toggleStatus} status={masterArr[i][j]} i={i} j={j} />
                             })}
                         </div>
                     )
-                    // return row.forEach((col)=>{
-                    //     return <Box/>
-                    // })
                 })}
             </div>
-            <button style={{background: 'white', color: '#1C1C1C', border: 'none', borderRadius: '5px', fontSize: '1.2rem'}} onClick={()=>changeColors(colors)}>Change</button>
+            <button style={{background: 'white', color: '#1C1C1C', border: 'none', borderRadius: '5px', fontSize: '1.2rem'}} onClick={startAnimation}>Start</button>
+            <button style={{background: 'white', color: '#1C1C1C', border: 'none', borderRadius: '5px', fontSize: '1.2rem'}} onClick={cancelAnimation}>Cancel</button>
         </div>
 
     )
