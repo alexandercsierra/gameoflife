@@ -22,13 +22,14 @@ const operations = [
 
 
 function App() {
-  const [divWidth, setDivWidth] = useState(400)
-  const [numRows, setNumRows] = useState(40)
-  const [numCols, setNumCols] = useState(40)
-  const [speed, setSpeed] = useState(500)
+  const [divWidth, setDivWidth] = useState(500)
+  const [numRows, setNumRows] = useState(50)
+  const [numCols, setNumCols] = useState(50)
+  const [speed, setSpeed] = useState(350)
   const [speedText, setSpeedText] = useState('1x Speed')
   const [generations, setGenerations] = useState(0)
   const [started, setStarted] = useState(false);
+  const [partyMode, setPartyMode] = useState(false)
   
   const genRef = useRef(generations)
   genRef.current = generations
@@ -128,6 +129,8 @@ function App() {
   }
 
 
+  const audioRef = useRef('green')
+  audioRef.current = 'green'
   return (
     <>
     <Nav/>
@@ -136,10 +139,14 @@ function App() {
         <h1>Conway's Game of Life</h1>
         <h2>{`Generations: ${generations}`}</h2>
         <h2>{`Speed: ${speedText}`}</h2>
-        <div style={{width: divWidth+5, height: divWidth+5, maxWidth: '100%', marginBottom: '4%'}}>
-          <Square numRows={numRows} numCols={numCols} grid={grid} updateGrid={updateGrid} divWidth={divWidth} divHeight={divWidth}/>
+        <div style={{display:'flex', justifyContent: 'space-around', width: '100%', alignItems: 'center', paddingTop: '4%'}}>
+          <div style={{width: divWidth+5, height: divWidth+5, maxWidth: '100%', marginBottom: '4%'}}>
+            <Square numRows={numRows} numCols={numCols} grid={grid} updateGrid={updateGrid} divWidth={divWidth} divHeight={divWidth} partyMode={partyMode}/>
+          </div>
+          <Buttons partyMode={partyMode} setPartyMode={setPartyMode} started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
+
         </div>
-        <Buttons started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
+
       </Container>
     </Route>
     <Route path="/about">
