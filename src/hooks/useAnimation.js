@@ -13,7 +13,8 @@ export const useAnimation = ( timestamp, doAnimationCallBack ) => {
     // only start the animation frame if we haven't in the past
     if( !started ){
       setStarted( true );
-      requestAnimationFrame( onFrame );
+      setTimeout(()=>{requestAnimationFrame( onFrame )},1000)
+      // requestAnimationFrame( onFrame )
     }
   }, [ started, continueAnimation ] );
   
@@ -22,7 +23,8 @@ export const useAnimation = ( timestamp, doAnimationCallBack ) => {
     
     // if we want to do more ask for the next frame
     if( continueAnimation ){
-      requestAnimationFrame( onFrame );
+      // requestAnimationFrame( onFrame );
+      setTimeout(()=>{requestAnimationFrame( onFrame )},1000)
     }
     const elapsed = prevTimeStamp - timestamp;
     setTimeStamp( timestamp );

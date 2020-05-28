@@ -12,20 +12,33 @@ const Animated = () => {
 
     const [canvasWidth, setCanvasWidth] = useState(625)
     const [divisor, setDivisor] = useState(Math.sqrt(canvasWidth))
+    let masterArr = Array(divisor).fill(null).map((sq, i)=>Array(divisor).fill(null).map((sq, j)=>{
+        let square = new Square(0, colors.main, colors.alt, i, j)
+        square.status = Math.floor(Math.random()*2)
+        return square
+    }))
+    
+    console.log(masterArr)
     useEffect(()=>{
         if (canvasRef){
             const canvas = document.getElementById('my-canvas')
-            console.log('canvas', canvasRef)
+            console.log('top', canvasRef.current.getBoundingClientRect().top)
+            console.log('left', canvasRef.current.getBoundingClientRect().left)
+            canvas.addEventListener('click', (e)=>{
+                let top = canvasRef.current.getBoundingClientRect().top
+                let left = canvasRef.current.getBoundingClientRect().left
+                let x = e.clientX;
+                let y = e.clientY;
+
+                if (e.clientY >= top + divisor && e.clientX >= left + (divisor *3)){
+                    alert(`x is ${e.clientX}, and y is ${e.clientY}`)
+                }
+
+                //determine which row y position is in, then x position, return that square and toggle it's status
+            })
             const ctx = canvas.getContext('2d');
             const imageData = ctx.getImageData(0,0,canvas.width, canvas.height)
             //2D array with 25 rows and 25 columns
-            let masterArr = Array(divisor).fill(null).map((sq, i)=>Array(divisor).fill(null).map((sq, j)=>{
-                let square = new Square(0, colors.main, colors.alt, i, j)
-                square.status = Math.floor(Math.random()*2)
-                square.findColor()
-                return square
-            }))
-            console.log(masterArr)
             
             if(imageData){
                 ctx.putImageData(imageData, 0, 0);
@@ -41,21 +54,24 @@ const Animated = () => {
                     }//end inner for
                 }//end outer for
 
-                // for (let i=0; i<500; i+=divisor){
-                //     for (let j=0; j<500; j+=divisor){
-                //         let curr = masterArr[i/divisor][j/divisor]
-                //         if(curr.status == 1){
-                //             if (masterArr[curr.btmi][curr.btmj]){
-                //                 masterArr[curr.btmi][curr.btmj].activeColor = 'red'
-                //             }
+                for (let i=0; i<canvasWidth-1; i+=divisor){
+                    for (let j=0; j<canvasWidth-1; j+=divisor){
+                        let curr = masterArr[i/divisor][j/divisor]
+                        if(curr.status == 1){
+                            console.log('curr', curr.btmi, curr.btmj)
+                            if (masterArr[curr.btmi]){
+                                if(masterArr[curr.btmj]){
+                                        masterArr[curr.btmi][curr.btmj].activeColor = 'red'
 
-                //         } 
-                //         ctx.fillStyle = masterArr[i/divisor][j/divisor].activeColor
+                                }
+                            }
+                        } 
+                        ctx.fillStyle = curr.activeColor
                         
-                //         ctx.fillRect(j, i, canvas.width/divisor, canvas.width/divisor);
+                        ctx.fillRect(j, i, canvas.width/divisor, canvas.width/divisor);
                         
-                //     }//end inner for
-                // }//end outer for
+                    }//end inner for
+                }//end outer for
 
                 
             }//end if imageData
@@ -66,7 +82,7 @@ const Animated = () => {
         if (colors.main == 'black'){
             setColors({
                 main: 'blue',
-                alt: 'green'
+                alt: 'white'
             })
         }
         else{
@@ -80,9 +96,14 @@ const Animated = () => {
     const canvasRef = useRef(null);
     
     const doAnimation = (elapsedTime) => {
+            // changeColors(colors)
             console.log('elapsed time:', elapsedTime);
             console.log('current ref', canvasRef.current);
             
+    }
+
+    const updateGame = () => {
+
     }
     
     const [cancelAnimation] = useAnimation(Date.now(), doAnimation);
