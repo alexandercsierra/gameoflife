@@ -3,6 +3,10 @@ import './App.css';
 import produce from 'immer'
 import Square from './components/Square'
 import Buttons from './components/Buttons'
+import About from './components/About'
+import styled from 'styled-components'
+import Nav from './components/Nav'
+import {Route} from 'react-router-dom'
 
 
 const operations = [
@@ -18,10 +22,10 @@ const operations = [
 
 
 function App() {
-
-  const [numRows, setNumRows] = useState(50)
-  const [numCols, setNumCols] = useState(50)
-  const [speed, setSpeed] = useState(1000)
+  const [divWidth, setDivWidth] = useState(400)
+  const [numRows, setNumRows] = useState(40)
+  const [numCols, setNumCols] = useState(40)
+  const [speed, setSpeed] = useState(500)
   const [speedText, setSpeedText] = useState('1x Speed')
   const [generations, setGenerations] = useState(0)
   const [started, setStarted] = useState(false);
@@ -125,16 +129,32 @@ function App() {
 
 
   return (
-    <div>
-      <Buttons started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
-      <h1>Conway's Game of Life</h1>
-      <h2>{`Generations: ${generations}`}</h2>
-      <h2>{`Speed: ${speedText}`}</h2>
-      <Square numCols={numCols} grid={grid} updateGrid={updateGrid}/>
-
-
-    </div>
+    <>
+    <Nav/>
+    <Route exact path="/">
+      <Container>
+        <h1>Conway's Game of Life</h1>
+        <h2>{`Generations: ${generations}`}</h2>
+        <h2>{`Speed: ${speedText}`}</h2>
+        <div style={{width: divWidth, height: '65vh', maxWidth: '100%'}}>
+          <Square numRows={numRows} numCols={numCols} grid={grid} updateGrid={updateGrid} divWidth={divWidth} divHeight={divWidth}/>
+        </div>
+        <Buttons started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
+      </Container>
+    </Route>
+    <Route path="/about">
+      <About/>
+    </Route>
+    </>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1C1C1C;
+  color: white;
+`;
