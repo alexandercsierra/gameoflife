@@ -29,8 +29,11 @@ function App() {
 }
 
   const [grid, setGrid] = useState(()=>emptyGrid())
-
+  const [generations, setGenerations] = useState(0)
   const [started, setStarted] = useState(false);
+
+  const genRef = useRef(generations)
+  genRef.current = generations
 
   const startedRef = useRef(started)
   startedRef.current = started
@@ -41,7 +44,7 @@ function App() {
       console.log('stopped')
       return
     }
-
+    setGenerations(genRef.current + 1)
     setGrid((currGrid)=>{
       return produce(currGrid, gridCopy=>{
        
@@ -73,11 +76,13 @@ function App() {
 
     console.log('running the game')
     setTimeout(startGame, 1000)
+    
 
   },[])
 
   const clearGrid = () => {
     setGrid(()=>emptyGrid())
+    setGenerations(0)
   }
 
   const updateGrid = (i, j) => {
@@ -88,6 +93,14 @@ function App() {
     setGrid(newGrid)
   }
 
+  const randomize = () => {
+    const rows = [];
+    for (let i=0; i<numRows; i++){
+      rows.push(Array.from(Array(numCols), ()=> Math.floor(Math.random()*2)))
+    }
+    setGrid(rows)
+    setGenerations(0)
+  }
 
 
   return (
@@ -104,6 +117,13 @@ function App() {
         clearGrid()
 
       }}>Clear</button>
+      <button onClick={()=>{
+        setStarted(false)
+        randomize()
+        
+        
+        }}>Randomize</button>
+      <h1>{`Generations: ${generations}`}</h1>
       <div className="App" style={{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}>
         {grid.map((rows, i)=>rows.map((col, j) => <div key={`${i}_${j}`} style={{width: '20px', height: '20px', border: '1px solid black', background: grid[i][j] ? 'black' : 'white'}} onClick={()=>updateGrid(i,j)}></div>))}
       </div>
