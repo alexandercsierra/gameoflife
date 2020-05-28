@@ -170,7 +170,8 @@ function App() {
           setSpeedText('1/2x speed')
           clearGrid()
         }}>1/2x Speed</button>
-      <h1>{`Generations: ${generations}`}</h1>
+      <h1>Conway's Game of Life</h1>
+      <h2>{`Generations: ${generations}`}</h2>
       <h2>{`Speed: ${speedText}`}</h2>
       <div className="App" style={{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}>
         {grid.map((rows, i)=>rows.map((col, j) => <div key={`${i}_${j}`} style={{width: '20px', height: '20px', border: '1px solid black', background: grid[i][j] ? 'black' : 'white'}} onClick={()=>updateGrid(i,j)}></div>))}
