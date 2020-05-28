@@ -1,9 +1,8 @@
 import React, {useState, useCallback, useRef} from 'react';
 import './App.css';
 import produce from 'immer'
-
-// const numRows = 50;
-// const numCols = 50;
+import Square from './components/Square'
+import Buttons from './components/Buttons'
 
 
 const operations = [
@@ -127,55 +126,11 @@ function App() {
 
   return (
     <div>
-      <button onClick={()=>{
-        setStarted(!started)
-        if (!started){
-          startedRef.current = true;
-          startGame();
-        } 
-      }}>{started ? 'Stop' : 'Start'}</button>
-      <button onClick={()=>{
-        setStarted(false)
-        clearGrid()
-
-      }}>Clear</button>
-      <button onClick={()=>{
-        setStarted(false)
-        randomize()
-        
-        
-        }}>Randomize</button>
-        <button onClick={()=>{
-          setNumCols(20)
-          setNumRows(20)
-          clearGrid()
-        }}>20 x 20</button>
-        <button onClick={()=>{
-          setNumCols(50)
-          setNumRows(50)
-          clearGrid()
-        }}>50 x 50</button>
-        <button onClick={()=>{
-          setSpeed(1000)
-          setSpeedText('1x speed')
-          clearGrid()
-        }}>1x Speed</button>
-        <button onClick={()=>{
-          setSpeed(500)
-          setSpeedText('2x speed')
-          clearGrid()
-        }}>2x Speed</button>
-        <button onClick={()=>{
-          setSpeed(2000)
-          setSpeedText('1/2x speed')
-          clearGrid()
-        }}>1/2x Speed</button>
+      <Buttons started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
       <h1>Conway's Game of Life</h1>
       <h2>{`Generations: ${generations}`}</h2>
       <h2>{`Speed: ${speedText}`}</h2>
-      <div className="App" style={{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}>
-        {grid.map((rows, i)=>rows.map((col, j) => <div key={`${i}_${j}`} style={{width: '20px', height: '20px', border: '1px solid black', background: grid[i][j] ? 'black' : 'white'}} onClick={()=>updateGrid(i,j)}></div>))}
-      </div>
+      <Square numCols={numCols} grid={grid} updateGrid={updateGrid}/>
 
 
     </div>
