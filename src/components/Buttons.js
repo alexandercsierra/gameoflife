@@ -84,14 +84,19 @@ const Buttons = ({started, setStarted, startedRef, startGame, clearGrid, randomi
 export default Buttons
 
 const BtnContainer = styled.div`
-    width: 25%;
+    width: 40%;
     max-width: 100%;
-    height: 30vh;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     background: rgba(68, 148, 201, .5);
     border-radius: 5px;
+
+    @media(max-width: 925px){
+      width: 80%;
+      height: 350px;
+    }
 `;
 
 const Button = styled.button`
@@ -106,4 +111,5 @@ const BtnDivider = styled.div`
   display:flex;
   justify-content: center;
   align-items: center;
+
 `;

@@ -18,6 +18,7 @@ const Links = styled(NavLink)`
     font-size: 1.2rem;
     padding: 1.5% 2%;
     color: white;
+    text-align: center;
     
 `;
 

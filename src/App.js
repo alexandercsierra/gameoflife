@@ -139,13 +139,15 @@ function App() {
         <h1>Conway's Game of Life</h1>
         <h2>{`Generations: ${generations}`}</h2>
         <h2>{`Speed: ${speedText}`}</h2>
-        <div style={{display:'flex', justifyContent: 'space-around', width: '100%', alignItems: 'center', paddingTop: '4%'}}>
+
+        <GameContainer>
+
           <div style={{width: divWidth+5, height: divWidth+5, maxWidth: '100%', marginBottom: '4%'}}>
             <Square numRows={numRows} numCols={numCols} grid={grid} updateGrid={updateGrid} divWidth={divWidth} divHeight={divWidth} partyMode={partyMode}/>
           </div>
           <Buttons partyMode={partyMode} setPartyMode={setPartyMode} started={started} setStarted={setStarted} startedRef={startedRef} startGame={startGame} clearGrid={clearGrid} randomize={randomize} setNumCols={setNumCols} setNumRows={setNumRows} setSpeed={setSpeed} setSpeedText={setSpeedText}/>
 
-        </div>
+        </GameContainer>
 
       </Container>
     </Route>
@@ -158,10 +160,25 @@ function App() {
 
 export default App;
 
+
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #1C1C1C;
   color: white;
+`;
+
+const GameContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+  padding-top: 4%;
+
+  @media(max-width: 925px){
+    flex-direction: column;
+  }
+
 `;
