@@ -17,9 +17,9 @@ const About = () => {
                 </Ul>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <p>Examples of possible formations:</p>
-                    <div>
-                        <img src='https://media.giphy.com/media/4VVZTvTqzRR0BUwNIH/giphy.gif'/>
-                    </div>
+                    <ImgDiv>
+                        <img style={{maxWidth: '100%'}} src='https://media.giphy.com/media/4VVZTvTqzRR0BUwNIH/giphy.gif'/>
+                    </ImgDiv>
                     <a style={{color: 'dodgerblue', textDecoration:'none'}} href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns">from Wikipedia</a>
                 </div>
             </div>
@@ -36,6 +36,7 @@ const Container = styled.div`
   background: #1C1C1C;
   color: white;
   height: 100vh;
+  padding-bottom: 30%;
 `;
 
 const Para = styled.p`
@@ -44,4 +45,10 @@ const Para = styled.p`
 
 const Ul = styled.ul`
     margin-left: 15%;
+`;
+
+const ImgDiv = styled.div`
+    @media(max-width: 600px){
+        width: 90%;
+    }
 `;
